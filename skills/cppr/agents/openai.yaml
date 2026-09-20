@@ -1,0 +1,3 @@
+interface:
+  display_name: "Cppr"
+  short_description: "Alias for the commit-push workflow"
