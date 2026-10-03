@@ -1,0 +1,4 @@
+interface:
+  display_name: "Pre Dev Prep"
+  short_description: "Prepare or reuse the authorized branch and worktree"
+  default_prompt: "Use $pre-dev-prep from this plugin for the current authorized workflow."

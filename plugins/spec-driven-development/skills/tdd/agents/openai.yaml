@@ -1,0 +1,4 @@
+interface:
+  display_name: "Tdd"
+  short_description: "Implement a phase with observed red and green evidence"
+  default_prompt: "Use $tdd from this plugin for the current authorized workflow."

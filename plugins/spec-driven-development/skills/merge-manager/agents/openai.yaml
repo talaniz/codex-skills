@@ -1,0 +1,4 @@
+interface:
+  display_name: "Merge Manager"
+  short_description: "Verify independent reviews and authorized merge gates"
+  default_prompt: "Use $merge-manager from this plugin for the current authorized workflow."
