@@ -36,3 +36,17 @@ plugin installation/discovery and real GitHub merging are not claimed by fixture
 
 Independent code review and subsequent distinct workflow E2E/forward-testing reports will
 be attached to PR1 with exact reviewed SHAs. They are required before readiness.
+
+## Independent code review corrections
+
+[First code review](https://github.com/talaniz/codex-skills/pull/1#issuecomment-5974249326)
+found two valid P2 gaps: unsupported relative references inside moved records could point
+at retained siblings and silently break, and an ignored untracked completion record was
+accepted. Both require fail-closed behavior before filesystem mutation.
+
+Before fixes, focused `-k moved_reference` and `-k ignored_completion` fixture tests each
+failed with `ValueError not raised` (exit1). The record must now be tracked by Git; relative
+reference/HTML/autolinks in moved documents are rejected whether or not their target moves.
+Additional HTML/autolink-to-retained-sibling cases exercise the shared condition. The full
+master check passes 23 tests plus package/reference/syntax validation. Original records and
+existing standalone skills remain untouched. Re-review is required on the fix head.

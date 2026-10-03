@@ -44,6 +44,7 @@ def inspect(repo):
             'worktrees':git(repo,'worktree','list','--porcelain')}
 
 def load_record(repo, head):
+    git(repo, 'ls-files', '--error-unmatch', '--', RECORD)
     data = json.loads(safe(repo, RECORD).read_text())
     required = {'id','status','recorded_by','reviewed_head','required_checks','checks','reviews','files'}
     if not isinstance(data, dict) or not required <= data.keys():
@@ -93,11 +94,13 @@ def rewrite(repo, source, destination, text, moves):
         if '](' in code:
             raise ValueError('Markdown link syntax in code examples requires manual review')
     for target in re.findall(r'<([^<>\s]+)>', text):
-        if link_target(repo, source, target) in mapping:
+        resolved = link_target(repo, source, target)
+        if resolved in mapping or (source != destination and resolved is not None):
             raise ValueError('Affected autolink unsupported')
     # References and HTML are left untouched unless they reference a moving record.
     for target in re.findall(r'^\s*\[[^\]]+\]:\s*<?([^\s>]+)',text,re.M)+re.findall(r'(?:href|src)=["\']([^"\']+)',text):
-        if link_target(repo,source,target) in mapping:
+        resolved = link_target(repo, source, target)
+        if resolved in mapping or (source != destination and resolved is not None):
             raise ValueError('Affected reference/HTML link unsupported; use a simple inline link')
     def replace(match):
         target=match.group(2)

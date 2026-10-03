@@ -158,3 +158,33 @@ class ArchiveTests(unittest.TestCase):
     def test_rejects_link_inside_code_example(self):
         self.reviewed_fixture_change('```md\n[Phase](harness/active/demo/phase.md)\n```\n')
         with self.assertRaises(ValueError):w.preview(self.repo)
+
+    def test_rejects_moved_reference_to_retained_record(self):
+        self.write('harness/active/demo/keep.md','Retained record\n')
+        self.write('harness/active/demo/phase.md','[Keep][k]\n\n[k]: keep.md\n')
+        self.commit()
+        self.record['reviewed_head']=git(self.repo,'rev-parse','HEAD')
+        for r in self.record['reviews']+self.record['checks']:r['head']=self.record['reviewed_head']
+        self.save_record()
+        with self.assertRaises(ValueError):w.preview(self.repo)
+
+    def test_rejects_untracked_ignored_completion_record(self):
+        git(self.repo,'rm','--cached','harness/milestone.json')
+        self.write('.gitignore','/harness/milestone.json\n');self.commit()
+        self.record['reviewed_head']=git(self.repo,'rev-parse','HEAD')
+        for r in self.record['reviews']+self.record['checks']:r['head']=self.record['reviewed_head']
+        self.write('harness/milestone.json',json.dumps(self.record))
+        self.assertEqual(git(self.repo,'status','--porcelain'),'')
+        with self.assertRaises(ValueError):w.preview(self.repo)
+
+
+    def test_rejects_moved_html_and_autolinks_to_retained_record(self):
+        for content in ('<a href="keep.md">Keep</a>\n', '<keep.md>\n'):
+            with self.subTest(content=content):
+                self.write('harness/active/demo/keep.md','Retained record\n')
+                self.write('harness/active/demo/phase.md',content)
+                self.commit()
+                self.record['reviewed_head']=git(self.repo,'rev-parse','HEAD')
+                for r in self.record['reviews']+self.record['checks']:r['head']=self.record['reviewed_head']
+                self.save_record()
+                with self.assertRaises(ValueError):w.preview(self.repo)
