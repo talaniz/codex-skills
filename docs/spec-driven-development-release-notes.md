@@ -17,7 +17,7 @@ preview digest. It preserves supported relative Markdown links and rejects ambig
 forms. Caught-error rollback is best effort; concurrent writers and crash recovery
 are not supported. Remote evidence truth and action authority remain caller checks.
 
-Validation uses 23 isolated tests and package checks. Review reports and exact
+Validation uses 24 isolated tests and package checks. Review reports and exact
 reviewed revisions are recorded on PR1. Fixture verification does not establish a
 complete live project trial, plugin installation/discovery, or real GitHub merging.
 There is no rendered UI change, so screenshot evidence is not applicable.

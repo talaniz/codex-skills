@@ -50,3 +50,11 @@ reference/HTML/autolinks in moved documents are rejected whether or not their ta
 Additional HTML/autolink-to-retained-sibling cases exercise the shared condition. The full
 master check passes 23 tests plus package/reference/syntax validation. Original records and
 existing standalone skills remain untouched. Re-review is required on the fix head.
+
+The [second review](https://github.com/talaniz/codex-skills/pull/1#issuecomment-5974293148)
+identified valid HTML attribute forms bypassing the guard. The focused
+`-k html_attribute_variants` test failed in 11 subcases before the fix (exit1), covering
+whitespace, case, unquoted values and character references, both in moved records and
+in retained files linking to moved records. Stdlib `HTMLParser` now extracts normalized
+`href`/`src` attributes before the existing affected-link guard. All 24 tests and package
+checks pass; every rejected preview leaves the fixture repository unchanged.

@@ -188,3 +188,20 @@ class ArchiveTests(unittest.TestCase):
                 for r in self.record['reviews']+self.record['checks']:r['head']=self.record['reviewed_head']
                 self.save_record()
                 with self.assertRaises(ValueError):w.preview(self.repo)
+
+    def test_rejects_html_attribute_variants(self):
+        for attribute in ('href = "{target}"', 'HREF="{target}"', 'href={target}',
+                          'src = \'{target}\'', 'HrEf="{target}"', 'href="{encoded}"'):
+            for moved in (False, True):
+                with self.subTest(attribute=attribute, moved=moved):
+                    target='keep.md' if moved else 'harness/active/demo/phase.md'
+                    content='<a '+attribute.format(target=target, encoded=target.replace('.', '&#46;'))+'>link</a>\n'
+                    self.write('harness/active/demo/keep.md','Retained\n')
+                    self.write('harness/active/demo/phase.md',content if moved else 'Phase\n')
+                    self.write('README.md','Readme\n' if moved else content)
+                    self.commit()
+                    self.record['reviewed_head']=git(self.repo,'rev-parse','HEAD')
+                    for r in self.record['reviews']+self.record['checks']:r['head']=self.record['reviewed_head']
+                    self.save_record()
+                    with self.assertRaises(ValueError):w.preview(self.repo)
+                    self.assertEqual(git(self.repo,'status','--porcelain'),'')

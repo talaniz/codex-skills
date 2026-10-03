@@ -1,5 +1,6 @@
 """Local, bounded workflow operations. No network, commits, merges or authorization."""
 import hashlib
+from html.parser import HTMLParser
 import json
 import os
 import re
@@ -84,6 +85,17 @@ def link_target(repo, source, target):
         return None
     return (repo/source).parent.joinpath(unquote(url.path)).resolve()
 
+class HTMLLinks(HTMLParser):
+    """Extract normalized HTML attributes without rewriting markup."""
+    def __init__(self):
+        super().__init__(convert_charrefs=True)
+        self.targets = []
+
+    def handle_starttag(self, tag, attrs):
+        self.targets.extend(value for name, value in attrs
+                            if name in ('href', 'src') and value)
+
+
 def rewrite(repo, source, destination, text, moves):
     mapping={safe(repo,a).resolve():safe(repo,b) for a,b in moves.items()}
     # Refuse syntax this intentionally small rewriter cannot interpret safely.
@@ -97,8 +109,12 @@ def rewrite(repo, source, destination, text, moves):
         resolved = link_target(repo, source, target)
         if resolved in mapping or (source != destination and resolved is not None):
             raise ValueError('Affected autolink unsupported')
-    # References and HTML are left untouched unless they reference a moving record.
-    for target in re.findall(r'^\s*\[[^\]]+\]:\s*<?([^\s>]+)',text,re.M)+re.findall(r'(?:href|src)=["\']([^"\']+)',text):
+    # Reject affected reference/HTML links, including relocation of their source.
+    html = HTMLLinks()
+    html.feed(text)
+    html.close()
+    targets = re.findall(r'^\s*\[[^\]]+\]:\s*<?([^\s>]+)', text, re.M)
+    for target in targets + html.targets:
         resolved = link_target(repo, source, target)
         if resolved in mapping or (source != destination and resolved is not None):
             raise ValueError('Affected reference/HTML link unsupported; use a simple inline link')
