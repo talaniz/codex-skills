@@ -58,3 +58,21 @@ whitespace, case, unquoted values and character references, both in moved record
 in retained files linking to moved records. Stdlib `HTMLParser` now extracts normalized
 `href`/`src` attributes before the existing affected-link guard. All 24 tests and package
 checks pass; every rejected preview leaves the fixture repository unchanged.
+
+## Completed independent verification
+
+On implementation revision `a80928e1485342f042b996d66e986cad1421f6ee`:
+
+- [Independent code sign-off](https://github.com/talaniz/codex-skills/pull/1#issuecomment-5974314082)
+  confirms all findings addressed, 24 passing tests, package validation, whitespace and
+  independent HTML regression probes.
+- [Distinct E2E and instruction forward-test sign-off](https://github.com/talaniz/codex-skills/pull/1#issuecomment-5974359882)
+  records actual CLI preview/apply, link preservation, declared-file-only movement,
+  retained active directory, and seven refusal cases without content changes. The reviewer
+  also produced and inspected planning artifacts, resumed a bounded milestone fixture with
+  unrelated dirty work, and evaluated a merge-readiness fixture with incomplete reviews
+  and no merge authority. The linked report contains self-contained evidence and limits.
+
+These are isolated synthetic workflow trials, not plugin installation/discovery or a full
+live project adoption trial. Final documentation-only revisions require both reviewers'
+documentary revalidation on the PR before its draft-to-ready transition.
