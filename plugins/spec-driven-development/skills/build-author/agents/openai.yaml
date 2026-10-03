@@ -1,0 +1,4 @@
+interface:
+  display_name: "Build Author"
+  short_description: "Create bounded phases and verification contracts"
+  default_prompt: "Use $build-author from this plugin for the current authorized workflow."

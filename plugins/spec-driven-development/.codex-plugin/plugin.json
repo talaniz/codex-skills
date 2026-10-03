@@ -1,0 +1,19 @@
+{
+  "name": "spec-driven-development",
+  "version": "0.1.0",
+  "description": "Seven skills for scoped specifications, test-first implementation, independent review and milestone closure.",
+  "author": {
+    "name": "talaniz"
+  },
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "Spec Driven Development",
+    "shortDescription": "From a scoped idea to independently reviewed delivery",
+    "longDescription": "Seven skills for scoped specifications, test-first implementation, independent review and milestone closure.",
+    "developerName": "talaniz",
+    "category": "Productivity",
+    "capabilities": [],
+    "defaultPrompt": "Use $ideate to plan the smallest useful outcome; keep this planning-only."
+  },
+  "repository": "https://github.com/talaniz/codex-skills"
+}

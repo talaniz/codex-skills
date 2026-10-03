@@ -1,0 +1,4 @@
+interface:
+  display_name: "Close Milestone"
+  short_description: "Preview and archive completed milestone records"
+  default_prompt: "Use $close-milestone from this plugin for the current authorized workflow."

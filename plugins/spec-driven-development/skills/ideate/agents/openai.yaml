@@ -1,0 +1,4 @@
+interface:
+  display_name: "Ideate"
+  short_description: "Plan a focused specification and acceptance scenarios"
+  default_prompt: "Use $ideate from this plugin for the current authorized workflow."

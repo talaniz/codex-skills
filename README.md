@@ -22,3 +22,11 @@ not Git hooks or mechanical enforcement of the development workflow.
 
 This repository contains copies of the skill files; cloning it does not update
 already-installed copies automatically.
+
+## Spec Driven Development bundle
+
+The self-contained [Spec Driven Development plugin](plugins/spec-driven-development/README.md)
+adds seven coordinated skills: ideate, build-author, pre-dev-prep, tdd, pr-author,
+merge-manager and close-milestone. It reconstructs the behavior visible in supplied
+photographs; it is not the original source. Existing standalone skills remain unchanged.
+See the bundle README for usage, local validation, archive safety and installation limits.

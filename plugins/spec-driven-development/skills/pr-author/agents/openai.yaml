@@ -1,0 +1,4 @@
+interface:
+  display_name: "Pr Author"
+  short_description: "Publish a scoped draft PR with verification evidence"
+  default_prompt: "Use $pr-author from this plugin for the current authorized workflow."
